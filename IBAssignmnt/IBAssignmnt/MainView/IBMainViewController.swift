@@ -25,6 +25,11 @@ class IBMainViewController: UIViewController {
         }
         self.poppupView.isHidden = true
         customizeView()
+        
+        let gesture = UITapGestureRecognizer(target: self, action:  #selector(self.checkAction))
+        self.view.addGestureRecognizer(gesture)
+
+     
        
     }
     
@@ -107,6 +112,12 @@ extension IBMainViewController: UITextFieldDelegate {
     }
     
     
+    @objc func checkAction(sender : UITapGestureRecognizer) {
+        if self.poppupView.isHidden == false {
+            self.closePopPup()
+        }
+        
+    }
    
  
 }
