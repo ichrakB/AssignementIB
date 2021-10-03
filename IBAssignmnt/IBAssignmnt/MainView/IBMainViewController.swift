@@ -10,6 +10,7 @@ import UIKit
 
 
 let ENCODED_DATA = "EncryptedData"
+let MESSAGE = "message"
 class IBMainViewController: UIViewController {
     @IBOutlet weak var textfield: UITextField!
     @IBOutlet weak var button: IBRoundButton!
@@ -20,12 +21,9 @@ class IBMainViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         customizeView()
-        
-        
     }
     
     //Customize MainView
-    
     func customizeView(){
         let gesture = UITapGestureRecognizer(target: self, action:  #selector(self.checkAction))
         self.view.addGestureRecognizer(gesture)
@@ -37,6 +35,8 @@ class IBMainViewController: UIViewController {
         }
         
         self.poppupView.addCorner()
+        UserDefaults.standard.setValue(self.poppupViewMessage.text, forKey: MESSAGE)
+        UserDefaults.standard.synchronize()
     }
     
     //Retrieve encryptedData
@@ -85,19 +85,19 @@ extension IBMainViewController: UITextFieldDelegate {
     //Action to show the popup
     @IBAction func showPopPup(){
         
-        guard let text =  self.poppupViewMessage.text  else {
-            return
-        }
+       
         guard let reversedText = textfield.text?.reverseString()  else {
             return
         }
-        self.poppupViewMessage.text =  text +  reversedText
+        guard let poppupViewMessage =  UserDefaults.standard.value(forKey: MESSAGE) as? String else {
+            return
+        }
+        self.poppupViewMessage.text =  poppupViewMessage +  reversedText
         self.poppupView.isHidden = false
         
     }
     //Action to close the popup
     @IBAction func closePopPup(){
-        //  textfield.text = textfield.text?.reverseString()
         self.poppupView.isHidden = true
         
     }
@@ -115,7 +115,7 @@ extension IBMainViewController: UITextFieldDelegate {
     }
     
     
-    
+    //Close popup when taping on the mainView
     @objc func checkAction(sender : UITapGestureRecognizer) {
         if self.poppupView.isHidden == false {
             self.closePopPup()

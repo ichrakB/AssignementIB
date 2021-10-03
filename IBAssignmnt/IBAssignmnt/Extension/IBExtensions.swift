@@ -84,7 +84,7 @@ extension String {
        
     }
     
-    //Check 
+    //Check
     func matches(for regex: String, in text: String) -> [String] {
 
         do {
@@ -120,7 +120,7 @@ extension String {
         return  reversedString
     }
     
-    
+    //decrypt data
     func fromBase64() -> String? {
         guard let data = Data(base64Encoded: self, options: Data.Base64DecodingOptions(rawValue: 0)) else {
              return nil
@@ -128,7 +128,7 @@ extension String {
 
          return String(data: data as Data, encoding: String.Encoding.utf8)
     }
-
+    //encrypt data
     func toBase64() -> String {
         guard let data = self.data(using: String.Encoding.utf8) else {
               return ""
@@ -138,7 +138,7 @@ extension String {
           
     }
     
-   
+   //Save data to preference
     func saveText(){
         let text  =  self.toBase64
         UserDefaults.standard.setValue(text, forKey: ENCODED_DATA)
