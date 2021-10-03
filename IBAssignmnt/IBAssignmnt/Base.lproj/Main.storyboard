@@ -11,7 +11,7 @@
         <!--Main View Controller-->
         <scene sceneID="ca0-g1-XOL">
             <objects>
-                <viewController id="wt7-t8-pdd" customClass="IBMainViewController" customModule="IBAssignmnt" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="IBMainViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="wt7-t8-pdd" customClass="IBMainViewController" customModule="IBAssignmnt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="koc-qn-EPV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
