@@ -54,10 +54,14 @@ extension String {
         let length = self.utf16.count
         var match = [String]()
 
+        
         if length < 8 {
             if location == 3 {
                 match = matches(for: "-", in: newString)
                 if match.count == 0 {
+                    if newString.isEmpty == true {
+                        return true
+                    }
                     return false
                 }
                return true
@@ -66,6 +70,9 @@ extension String {
                 
                 match = matches(for: "[a-z]", in: newString)
                 if match.count == 0 {
+                    if newString.isEmpty == true {
+                        return true
+                    }
                     return false
                 }
                return true
@@ -77,6 +84,7 @@ extension String {
        
     }
     
+    //Check 
     func matches(for regex: String, in text: String) -> [String] {
 
         do {
@@ -92,6 +100,8 @@ extension String {
         }
     }
  
+    //Reverse String
+    //Random Shuffle
     func reverseString() -> String{
         
         let listItems = self.components(separatedBy: "-")
@@ -131,7 +141,7 @@ extension String {
    
     func saveText(){
         let text  =  self.toBase64
-        UserDefaults.standard.setValue(text, forKey: "EncryptedData")
+        UserDefaults.standard.setValue(text, forKey: ENCODED_DATA)
         UserDefaults.standard.synchronize()
     }
   

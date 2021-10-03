@@ -6,10 +6,10 @@
 //
 
 import Foundation
-
 import UIKit
-import CryptoKit
 
+
+let ENCODED_DATA = "EncryptedData"
 class IBMainViewController: UIViewController {
     @IBOutlet weak var textfield: UITextField!
     @IBOutlet weak var button: IBRoundButton!
@@ -19,25 +19,27 @@ class IBMainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        customizeView()
         
+       
+    }
+    
+    //Customize MainView
+    
+    func customizeView(){
+        let gesture = UITapGestureRecognizer(target: self, action:  #selector(self.checkAction))
+        self.view.addGestureRecognizer(gesture)
+        self.poppupView.isHidden = true
+        self.view.bringSubviewToFront(self.poppupView)
+        self.textfield.becomeFirstResponder()
         if oldText().isEmpty == false {
             self.textfield.text = oldText()
         }
-        self.poppupView.isHidden = true
-        customizeView()
-        
-        let gesture = UITapGestureRecognizer(target: self, action:  #selector(self.checkAction))
-        self.view.addGestureRecognizer(gesture)
-    }
-    
-    func customizeView(){
-        self.view.bringSubviewToFront(self.poppupView)
-        textfield.becomeFirstResponder()
        
     }
-
+    //Retrieve encryptedData
     func oldText() -> String{
-        guard let encryptedData =  UserDefaults.standard.value(forKey: "EncryptedData") as? String else {
+        guard let encryptedData =  UserDefaults.standard.value(forKey: ENCODED_DATA) as? String else {
             return ""
         }
         return encryptedData.fromBase64()!
@@ -64,9 +66,10 @@ extension IBMainViewController: UITextFieldDelegate {
           
             return false
         }else {
-            
+            if string.isEmpty == true{
+                return false
+            }
             let newString = textField.text! + string
-            
             
             if newString.match(range.location, string) ==  true {
                 return true
