@@ -12,7 +12,7 @@ import CryptoKit
 
 class IBMainViewController: UIViewController {
     @IBOutlet weak var textfield: UITextField!
-    @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var button: IBRoundButton!
     @IBOutlet weak var poppupView: UIView!
     @IBOutlet weak var poppupViewMessage: UILabel!
     
@@ -28,9 +28,6 @@ class IBMainViewController: UIViewController {
         
         let gesture = UITapGestureRecognizer(target: self, action:  #selector(self.checkAction))
         self.view.addGestureRecognizer(gesture)
-
-     
-       
     }
     
     func customizeView(){
@@ -116,9 +113,6 @@ extension IBMainViewController: UITextFieldDelegate {
         if self.poppupView.isHidden == false {
             self.closePopPup()
         }
-        
     }
-   
- 
 }
 
