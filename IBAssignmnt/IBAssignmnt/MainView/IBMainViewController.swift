@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-let ENCODED_DATA = "EncryptedData"
+let ENCODED_DATA = "encryptedData"
 let MESSAGE = "message"
 class IBMainViewController: UIViewController {
     @IBOutlet weak var textfield: UITextField!
