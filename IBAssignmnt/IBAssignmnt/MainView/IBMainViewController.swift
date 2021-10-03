@@ -98,11 +98,9 @@ extension IBMainViewController: UITextFieldDelegate {
        
             UserDefaults.standard.setValue(text.toBase64(), forKey: "EncryptedData")
             UserDefaults.standard.synchronize()
-      
-
-      
-       
-    }
+        textfield.text = text
+        closePopPup()
+     }
     
     func customizePopup(){
         self.poppupView.addCorner()
