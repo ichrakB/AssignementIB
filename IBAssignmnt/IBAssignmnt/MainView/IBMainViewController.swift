@@ -21,7 +21,7 @@ class IBMainViewController: UIViewController {
         // Do any additional setup after loading the view.
         customizeView()
         
-       
+        
     }
     
     //Customize MainView
@@ -35,8 +35,10 @@ class IBMainViewController: UIViewController {
         if oldText().isEmpty == false {
             self.textfield.text = oldText()
         }
-       
+        
+        self.poppupView.addCorner()
     }
+    
     //Retrieve encryptedData
     func oldText() -> String{
         guard let encryptedData =  UserDefaults.standard.value(forKey: ENCODED_DATA) as? String else {
@@ -44,7 +46,7 @@ class IBMainViewController: UIViewController {
         }
         return encryptedData.fromBase64()!
     }
-
+    
 }
 
 extension IBMainViewController: UITextFieldDelegate {
@@ -53,63 +55,65 @@ extension IBMainViewController: UITextFieldDelegate {
     private func textFieldShouldEndEditing(textField: UITextField!) -> Bool {
         return false
     }
-
+    
     private func textFieldShouldReturn(textField: UITextField!) -> Bool {
-     
+        
         textField.resignFirstResponder()
         return true
     }
+    //Check the input
+    //The text input should have 6 letters + "_" in the middle
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-       
+        
         if string.isNumberOrSpecialCharacter == true
-        || string.containsEmoji == true   {
-          
+            || string.containsEmoji == true   {
+            
             return false
         }else {
-            if string.isEmpty == true{
-                return false
-            }
+            
             let newString = textField.text! + string
             
             if newString.match(range.location, string) ==  true {
                 return true
             }
             return false
-           
+            
         }
- 
+        
     }
     
+    //Action to show the popup
     @IBAction func showPopPup(){
-      //  textfield.text = textfield.text?.reverseString()
-        self.customizePopup()
+        
         guard let text =  self.poppupViewMessage.text  else {
             return
         }
-        self.poppupViewMessage.text =  text +  (textfield.text?.reverseString())!
+        guard let reversedText = textfield.text?.reverseString()  else {
+            return
+        }
+        self.poppupViewMessage.text =  text +  reversedText
         self.poppupView.isHidden = false
-       
+        
     }
+    //Action to close the popup
     @IBAction func closePopPup(){
-      //  textfield.text = textfield.text?.reverseString()
+        //  textfield.text = textfield.text?.reverseString()
         self.poppupView.isHidden = true
-       
+        
     }
+    //Action to SAVE the text
     @IBAction func saveText(){
-     
+        
         guard let text =  textfield.text?.reverseString() else {
             return
         }
-       
-            UserDefaults.standard.setValue(text.toBase64(), forKey: "EncryptedData")
-            UserDefaults.standard.synchronize()
+        
+        UserDefaults.standard.setValue(text.toBase64(), forKey: ENCODED_DATA)
+        UserDefaults.standard.synchronize()
         textfield.text = text
         closePopPup()
-     }
-    
-    func customizePopup(){
-        self.poppupView.addCorner()
     }
+    
     
     
     @objc func checkAction(sender : UITapGestureRecognizer) {
