@@ -12,7 +12,6 @@ import CryptoKit
 
 class IBMainViewController: UIViewController {
     @IBOutlet weak var textfield: UITextField!
-   
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var poppupView: UIView!
     @IBOutlet weak var poppupViewMessage: UILabel!
@@ -25,7 +24,13 @@ class IBMainViewController: UIViewController {
             self.textfield.text = oldText()
         }
         self.poppupView.isHidden = true
+        customizeView()
        
+    }
+    
+    func customizeView(){
+        self.view.bringSubviewToFront(self.poppupView)
+        textfield.becomeFirstResponder()
        
     }
 
@@ -40,23 +45,20 @@ class IBMainViewController: UIViewController {
 
 extension IBMainViewController: UITextFieldDelegate {
     
-    private func textFieldDidBeginEditing(textField: UITextField!) {    //delegate method
-
-    }
-
-    private func textFieldShouldEndEditing(textField: UITextField!) -> Bool {  //delegate method
+    
+    private func textFieldShouldEndEditing(textField: UITextField!) -> Bool {
         return false
     }
 
-    private func textFieldShouldReturn(textField: UITextField!) -> Bool {   //delegate method
-      textField.resignFirstResponder()
-
+    private func textFieldShouldReturn(textField: UITextField!) -> Bool {
+     
+        textField.resignFirstResponder()
         return true
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
        
         if string.isNumberOrSpecialCharacter == true
-            || string.containsEmoji == true   {
+        || string.containsEmoji == true   {
           
             return false
         }else {
@@ -93,9 +95,12 @@ extension IBMainViewController: UITextFieldDelegate {
         guard let text =  textfield.text?.reverseString() else {
             return
         }
+       
+            UserDefaults.standard.setValue(text.toBase64(), forKey: "EncryptedData")
+            UserDefaults.standard.synchronize()
+      
 
-        UserDefaults.standard.setValue(text.toBase64, forKey: "EncryptedData")
-        UserDefaults.standard.synchronize()
+      
        
     }
     
