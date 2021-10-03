@@ -6,9 +6,8 @@
 //
 
 import Foundation
-
-import Foundation
 import CryptoKit
+import UIKit
 
 extension String {
     
@@ -116,18 +115,18 @@ extension String {
         guard let data = Data(base64Encoded: self) else {
             return nil
         }
-
-        
         return String(data: data, encoding: .utf8)
     }
 
     func toBase64() -> String {
-        
-        
-        UserDefaults.standard.set(self, forKey: "EncryptedData")
+       return Data(self.utf8).base64EncodedString()
+    }
+    
+   
+    func saveText(){
+        let text  =  self.toBase64
+        UserDefaults.standard.setValue(text, forKey: "EncryptedData")
         UserDefaults.standard.synchronize()
-        
-        return Data(self.utf8).base64EncodedString()
     }
   
 }
@@ -140,6 +139,16 @@ extension Array {
             guard i != j else { continue}
             self.swapAt(i, j)
         }
+    }
+}
+
+extension UIView {
+    
+    func addCorner(){
+        self.layer.masksToBounds = false
+        self.layer.cornerRadius = 10
+        self.clipsToBounds = true
+        
     }
 }
 

@@ -14,15 +14,27 @@ class IBMainViewController: UIViewController {
     @IBOutlet weak var textfield: UITextField!
    
     @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var poppupView: UIView!
+    @IBOutlet weak var poppupViewMessage: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        let defaults = UserDefaults.standard
-      
+        
+        if oldText().isEmpty == false {
+            self.textfield.text = oldText()
+        }
+        self.poppupView.isHidden = true
        
        
     }
 
+    func oldText() -> String{
+        guard let encryptedData =  UserDefaults.standard.value(forKey: "EncryptedData") as? String else {
+            return ""
+        }
+        return encryptedData.fromBase64()!
+    }
 
 }
 
@@ -62,9 +74,35 @@ extension IBMainViewController: UITextFieldDelegate {
     }
     
     @IBAction func showPopPup(){
-        textfield.text = textfield.text?.reverseString()
-      
+      //  textfield.text = textfield.text?.reverseString()
+        self.customizePopup()
+        guard let text =  self.poppupViewMessage.text  else {
+            return
+        }
+        self.poppupViewMessage.text =  text +  (textfield.text?.reverseString())!
+        self.poppupView.isHidden = false
+       
     }
+    @IBAction func closePopPup(){
+      //  textfield.text = textfield.text?.reverseString()
+        self.poppupView.isHidden = true
+       
+    }
+    @IBAction func saveText(){
+     
+        guard let text =  textfield.text?.reverseString() else {
+            return
+        }
+
+        UserDefaults.standard.setValue(text.toBase64, forKey: "EncryptedData")
+        UserDefaults.standard.synchronize()
+       
+    }
+    
+    func customizePopup(){
+        self.poppupView.addCorner()
+    }
+    
     
    
  
